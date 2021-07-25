@@ -46,10 +46,8 @@ public class CarDao {
     public void updateCarById(Car car, int carId) {
         Transaction transaction = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            // start a transaction
             transaction = session.beginTransaction();
 
-            // save the student object
             String hql = "UPDATE Car set title = :title, price = :price, manufactureDate = :manufactureDate, " +
                     "sellDate = :sellDate, gearType = :gearType, fuelVolume = :fuelVolume " + "WHERE id = :carId";
             Query query = session.createQuery(hql);
@@ -63,7 +61,6 @@ public class CarDao {
             int result = query.executeUpdate();
             System.out.println("Rows affected: " + result);
 
-            // commit transaction
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {
