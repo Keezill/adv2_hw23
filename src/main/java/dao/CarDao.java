@@ -94,7 +94,8 @@ public class CarDao {
         return car;
     }
 
-    public Car getCarByTitle(String title) {
+    public List<Car> getCarsByTitle(String title) {
+        List<Car> cars = null;
         Transaction transaction = null;
         Car car = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
@@ -103,11 +104,8 @@ public class CarDao {
             String hql = "FROM Car C WHERE C.title LIKE :carTitle";
             Query query = session.createQuery(hql);
             query.setParameter("carTitle", title);
-            List results = query.getResultList();
+            cars = query.getResultList();
 
-            if (results != null && !results.isEmpty()) {
-                car = (Car) results.get(0);
-            }
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {
@@ -115,12 +113,12 @@ public class CarDao {
             }
             e.printStackTrace();
         }
-        return car;
+        return cars;
     }
 
-    public List getCarByPriceRange(String min, String max) {
+    public List<Car> getCarByPriceRange(String min, String max) {
         Transaction transaction = null;
-        List cars = null;
+        List<Car> cars = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
             String hql = "FROM Car C WHERE C.price BETWEEN :min AND :max";

@@ -21,7 +21,8 @@ public class App {
 
         System.out.println(carDao.getCarById(2));
 
-        System.out.println(carDao.getCarByTitle("BMW"));
+        List<Car> carsByTitle = carDao.getCarsByTitle("Mercedes");
+        System.out.println(carsByTitle);
 
         System.out.println(carDao.getCarByPriceRange("20000", "31000"));
 
